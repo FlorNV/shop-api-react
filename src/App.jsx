@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -6,9 +7,7 @@ import { Register } from "./pages/Register";
 export const App = () => {
   return (
     <BrowserRouter>
-      <h1 className="text-3xl font-bold underline bg-cyan-300 p-2">
-        Hello world!
-      </h1>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
