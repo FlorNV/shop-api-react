@@ -12,7 +12,7 @@ export const Navbar = () => {
   const link = " rounded-md px-2 py-1 font-semibold mt-2 lg:mt-0";
 
   return (
-    <nav className="bg-white border-b-2 p-4">
+    <nav className="bg-white border-b border-b-gray-300 p-4">
       <div className="flex flex-wrap items-center space-x-4 lg:space-x-10">
         <div className="text-2xl font-bold text-indigo-400">
           <Link to="/">ShopApp</Link>

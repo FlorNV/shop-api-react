@@ -1,3 +1,9 @@
+import { ProductCards } from "../components/ProductCards";
+
 export const Home = () => {
-  return <h1 className="text-3xl font-bold">Home</h1>;
+  return (
+    <div>
+      <ProductCards />
+    </div>
+  );
 };
