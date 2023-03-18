@@ -4,31 +4,31 @@ export const useFormValidator = () => {
   const [errors, setErrors] = useState({
     username: "",
     password: "",
-    isValid: false,
   });
 
   const validateForm = ({ username, password }) => {
     const validations = {
       username: "",
       password: "",
-      isValid: true,
     };
+    let isValid = true;
 
     if (username === "") {
       validations.username = "Username is required";
-      validations.isValid = false;
+      isValid = false;
     }
 
     if (password === "") {
       validations.password = "Password is required";
-      validations.isValid = false;
+      isValid = false;
     }
 
     setErrors(validations);
+    return isValid;
   };
 
   return {
-    validateForm,
     errors,
+    validateForm,
   };
 };

@@ -1,20 +1,40 @@
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useField } from "../hooks/useField";
 import { useFormValidator } from "../hooks/useLoginFormValidator";
 import image from "../assets/box.jpg";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const Login = () => {
+  const { signin, error, user } = useContext(AuthContext);
   const username = useField({ type: "text", name: "Username" });
   const password = useField({ type: "password", name: "Password" });
   const { errors, validateForm } = useFormValidator();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    validateForm({
+    const data = {
       username: username.value,
       password: password.value,
-    });
+    };
+
+    const isValid = validateForm(data);
+
+    if (isValid) {
+      const body = {
+        ...data,
+        expiresInMins: 60,
+      };
+      signin(body);
+    }
   };
+
+  useEffect(() => {
+    if (!error && user) {
+      navigate("/");
+    }
+  }, [error, user]);
 
   return (
     <div className="w-max flex flex-col md:flex-row md:items-center p-12 md:p-0 bg-white mx-auto mt-12 rounded-md shadow-md">
@@ -34,6 +54,7 @@ export const Login = () => {
         />
       </div>
       <form onSubmit={handleSubmit} className="w-96 px-10">
+        {error && <p className="text-red-400 text-center">{error}</p>}
         <label className="flex flex-col mt-6">
           <span>Username</span>
           <input
@@ -41,7 +62,7 @@ export const Login = () => {
             className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
           />
         </label>
-        {errors?.username && <p className="text-red-400">{errors.username}</p>}
+        {errors.username && <p className="text-red-400">{errors.username}</p>}
         <label className="flex flex-col mt-6">
           <span>Password</span>
           <input
@@ -49,7 +70,7 @@ export const Login = () => {
             className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
           />
         </label>
-        {errors?.password && <p className="text-red-400">{errors.password}</p>}
+        {errors.password && <p className="text-red-400">{errors.password}</p>}
         <button
           type="submit"
           className="inline-block text-white bg-indigo-400 font-semibold hover:bg-indigo-400/80 transition-colors duration-200 rounded-md px-6 py-2 mr-4 mt-6"
