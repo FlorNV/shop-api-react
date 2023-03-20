@@ -1,15 +1,16 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useField } from "../hooks/useField";
-import { useFormValidator } from "../hooks/useLoginFormValidator";
+import { useLoginFormValidator } from "../hooks/useLoginFormValidator";
 import image from "../assets/box.jpg";
 import { AuthContext } from "../contexts/AuthContext";
+import { Field } from "../components/Field";
 
 export const Login = () => {
   const { signin, error, user } = useContext(AuthContext);
   const username = useField({ type: "text", name: "Username" });
   const password = useField({ type: "password", name: "Password" });
-  const { errors, validateForm } = useFormValidator();
+  const { errors, validateForm } = useLoginFormValidator();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -55,22 +56,10 @@ export const Login = () => {
       </div>
       <form onSubmit={handleSubmit} className="w-96 px-10">
         {error && <p className="text-red-400 text-center">{error}</p>}
-        <label className="flex flex-col mt-6">
-          <span>Username</span>
-          <input
-            {...username}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-          />
-        </label>
-        {errors.username && <p className="text-red-400">{errors.username}</p>}
-        <label className="flex flex-col mt-6">
-          <span>Password</span>
-          <input
-            {...password}
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-          />
-        </label>
-        {errors.password && <p className="text-red-400">{errors.password}</p>}
+
+        <Field label="Username" field={username} errors={errors.username} />
+        <Field label="Password" field={password} errors={errors.password} />
+
         <button
           type="submit"
           className="inline-block text-white bg-indigo-400 font-semibold hover:bg-indigo-400/80 transition-colors duration-200 rounded-md px-6 py-2 mr-4 mt-6"

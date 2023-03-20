@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useFormValidator = () => {
+export const useLoginFormValidator = () => {
   const [errors, setErrors] = useState({
     username: "",
     password: "",

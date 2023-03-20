@@ -18,7 +18,7 @@ export const Navbar = () => {
         <div className="text-2xl font-bold text-indigo-400">
           <Link to="/">ShopApp</Link>
         </div>
-        {pathname !== "/login" && (
+        {pathname !== "/login" && pathname !== "/register" && (
           <>
             <div className="flex-1">
               <input

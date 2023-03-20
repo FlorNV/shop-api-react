@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { login } from "../services/login";
+import { register } from "../services/register";
 
 export const useAuthProvider = () => {
   const [user, setUser] = useState(null);
@@ -27,8 +28,15 @@ export const useAuthProvider = () => {
     console.log("signout");
   };
 
-  const signup = () => {
-    console.log("signup");
+  const signup = (body) => {
+    register(body).then((data) => {
+      if (data.message) {
+        setError(data.message);
+        return;
+      }
+      console.log(data);
+      setError(null);
+    });
   };
 
   return { user, error, signin, signout, signup };
