@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { BsCart3, BsListTask, BsHeadphones } from "react-icons/bs";
 import { HiOutlineHome } from "react-icons/hi";
+import { AuthContext } from "../contexts/AuthContext";
+import { Dropdown } from "./Dropdown";
 
 export const Navbar = () => {
+  const { signout, token, user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
 
@@ -70,23 +73,29 @@ export const Navbar = () => {
               <div className="flex flex-wrap items-center order-first lg:order-last">
                 <p className="lg:hidden w-full text-sm mr-2 my-4 text-center text-black">
                   <span className="font-bold">Welcome. </span>
-                  <span className="">
+                  <span>
                     Sign into your account to see your orders, favorites, etc.
                   </span>
                 </p>
-                <NavLink
-                  to="/login"
-                  className="flex-auto text-center bg-indigo-400/10 font-semibold hover:bg-indigo-400/20 transition-colors duration-200 rounded-md 
+                {!token ? (
+                  <>
+                    <NavLink
+                      to="/login"
+                      className="flex-auto text-center bg-indigo-400/10 font-semibold hover:bg-indigo-400/20 transition-colors duration-200 rounded-md 
               px-6 py-2 mr-4"
-                >
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/register"
-                  className="flex-auto bg-indigo-400 text-center text-white font-semibold hover:bg-indigo-400/80 transition-colors duration-200 rounded-md px-6 py-2 mr-4"
-                >
-                  Register
-                </NavLink>
+                    >
+                      Login
+                    </NavLink>
+                    <NavLink
+                      to="/register"
+                      className="flex-auto bg-indigo-400 text-center text-white font-semibold hover:bg-indigo-400/80 transition-colors duration-200 rounded-md px-6 py-2 mr-4"
+                    >
+                      Register
+                    </NavLink>
+                  </>
+                ) : (
+                  <Dropdown user={user} signout={signout} />
+                )}
                 <NavLink
                   to="/cart"
                   className={({ isActive }) =>

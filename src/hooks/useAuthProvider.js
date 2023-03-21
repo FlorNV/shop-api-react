@@ -3,6 +3,7 @@ import { login } from "../services/login";
 import { register } from "../services/register";
 
 export const useAuthProvider = () => {
+  const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -15,7 +16,9 @@ export const useAuthProvider = () => {
         }
         console.log(data);
         setError(null);
+        setToken(data.token);
         setUser(data);
+        localStorage.setItem("token", JSON.stringify(data.token));
         localStorage.setItem("user", JSON.stringify(data));
       })
       .catch((error) => {
@@ -25,7 +28,10 @@ export const useAuthProvider = () => {
   };
 
   const signout = () => {
-    console.log("signout");
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   const signup = (body) => {
@@ -39,5 +45,5 @@ export const useAuthProvider = () => {
     });
   };
 
-  return { user, error, signin, signout, signup };
+  return { token, user, error, signin, signout, signup };
 };

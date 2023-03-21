@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { useAuthProvider } from "../hooks/useAuthProvider";
 
 export const AuthContext = createContext({
+  token: {},
   user: {},
   error: {},
   signin: () => {},
